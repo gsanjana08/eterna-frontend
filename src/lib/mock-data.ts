@@ -85,25 +85,19 @@ export function generateMockToken(tokenInfo: { name: string; symbol: string }, i
  * Generate array of mock tokens with no duplicates
  */
 export function generateMockTokens(count: number = 60): Token[] {
-  // Shuffle token names to randomize order
   const shuffledTokens = shuffleArray(TOKEN_NAMES)
   
-  // If we need more tokens than available, cycle through shuffled array
-  // but ensure each token appears at most once in the first pass
   const tokens: Token[] = []
   const maxUnique = Math.min(count, TOKEN_NAMES.length)
   
-  // First, generate unique tokens
   for (let i = 0; i < maxUnique; i++) {
     tokens.push(generateMockToken(shuffledTokens[i], i))
   }
   
-  // If we need more tokens, add variations with different data
   if (count > TOKEN_NAMES.length) {
     const remaining = count - TOKEN_NAMES.length
     for (let i = 0; i < remaining; i++) {
       const tokenInfo = shuffledTokens[i % shuffledTokens.length]
-      // Add a suffix to make it unique (e.g., "PancakeSwap V2")
       const uniqueName = `${tokenInfo.name} V${Math.floor(i / shuffledTokens.length) + 2}`
       tokens.push(generateMockToken({ name: uniqueName, symbol: tokenInfo.symbol }, maxUnique + i))
     }
