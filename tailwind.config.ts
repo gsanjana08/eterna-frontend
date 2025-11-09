@@ -69,21 +69,11 @@ const config: Config = {
           '0%': { backgroundPosition: '-1000px 0' },
           '100%': { backgroundPosition: '1000px 0' },
         },
-        'pulse-green': {
-          '0%, 100%': { backgroundColor: 'transparent' },
-          '50%': { backgroundColor: 'rgba(16, 185, 129, 0.1)' },
-        },
-        'pulse-red': {
-          '0%, 100%': { backgroundColor: 'transparent' },
-          '50%': { backgroundColor: 'rgba(239, 68, 68, 0.1)' },
-        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         shimmer: 'shimmer 2s infinite linear',
-        'pulse-green': 'pulse-green 0.6s ease-in-out',
-        'pulse-red': 'pulse-red 0.6s ease-in-out',
       },
     },
   },
