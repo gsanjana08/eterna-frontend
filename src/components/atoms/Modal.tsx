@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { cn } from '@/lib/utils'
 
@@ -15,6 +15,7 @@ interface ModalProps {
 
 /**
  * Reusable Modal component using Radix UI Dialog
+ * Handles browser back button to close modal
  */
 export const Modal: React.FC<ModalProps> = ({
   open,
@@ -24,6 +25,43 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   className,
 }) => {
+  const hasPushedState = useRef(false)
+  const isClosingViaBackButton = useRef(false)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    if (!open) {
+      if (hasPushedState.current && !isClosingViaBackButton.current) {
+        hasPushedState.current = false
+        if (window.history.state && window.history.state.modal) {
+          window.history.replaceState(null, '')
+        }
+      }
+      isClosingViaBackButton.current = false
+      return
+    }
+
+    if (!hasPushedState.current) {
+      window.history.pushState({ modal: true }, '')
+      hasPushedState.current = true
+    }
+
+    const handlePopState = () => {
+      if (hasPushedState.current && open) {
+        isClosingViaBackButton.current = true
+        hasPushedState.current = false
+        onOpenChange(false)
+      }
+    }
+
+    window.addEventListener('popstate', handlePopState)
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
+    }
+  }, [open, onOpenChange])
+
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
