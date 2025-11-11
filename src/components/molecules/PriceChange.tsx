@@ -26,6 +26,7 @@ export const PriceChange = memo<PriceChangeProps>(
         const timer = setTimeout(() => setIsAnimating(false), 600)
         return () => clearTimeout(timer)
       }
+      return undefined
     }, [direction])
 
     const colorClass = isPositive ? 'text-green-500' : 'text-red-500'

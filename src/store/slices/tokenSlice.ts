@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Token, SortConfig, FilterConfig, TokenStatus } from '@/types/token'
+import { Token, SortConfig, FilterConfig } from '@/types/token'
 
 interface TokenState {
   tokens: Token[]
@@ -140,6 +140,9 @@ function filterAndSortTokens(
     const aValue = a[sortConfig.key]
     const bValue = b[sortConfig.key]
 
+    // Handle undefined/null values
+    if (aValue === undefined || aValue === null) return 1
+    if (bValue === undefined || bValue === null) return -1
     if (aValue === bValue) return 0
 
     const comparison = aValue > bValue ? 1 : -1

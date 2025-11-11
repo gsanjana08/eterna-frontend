@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 
 interface TokenLogoProps {
@@ -40,12 +41,14 @@ export const TokenLogo: React.FC<TokenLogoProps> = ({
   }
 
   return (
-    <img
+    <Image
       src={src}
       alt={alt}
+      width={size === 'sm' ? 24 : size === 'md' ? 32 : 40}
+      height={size === 'sm' ? 24 : size === 'md' ? 32 : 40}
       className={cn('rounded-full object-cover', sizes[size], className)}
       onError={() => setHasError(true)}
-      loading="lazy"
+      unoptimized
     />
   )
 }

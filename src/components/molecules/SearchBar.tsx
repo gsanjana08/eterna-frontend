@@ -1,6 +1,5 @@
-import React, { useCallback } from 'react'
+import React, { useRef, useCallback, useEffect } from 'react'
 import { Input } from '@/components/atoms/Input'
-import { debounce } from '@/lib/utils'
 
 interface SearchBarProps {
   value: string
@@ -16,14 +15,31 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   onChange,
   placeholder = 'Search tokens...',
 }) => {
-  const debouncedOnChange = useCallback(
-    debounce((value: string) => onChange(value), 300),
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const searchValue = e.target.value
+      
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+      
+      timeoutRef.current = setTimeout(() => {
+        onChange(searchValue)
+      }, 300)
+    },
     [onChange]
   )
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    debouncedOnChange(e.target.value)
-  }
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+    }
+  }, [])
 
   return (
     <div className="relative">

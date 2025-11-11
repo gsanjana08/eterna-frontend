@@ -4,7 +4,6 @@ import {
   setTokens,
   updateToken,
   setLoading,
-  setError,
   setSortConfig,
   setFilterConfig,
 } from '@/store/slices/tokenSlice'

@@ -54,7 +54,7 @@ function shuffleArray<T>(array: T[]): T[] {
 /**
  * Generate a single mock token
  */
-export function generateMockToken(tokenInfo: { name: string; symbol: string }, index: number): Token {
+export function generateMockToken(tokenInfo: { name: string; symbol: string }): Token {
   const status = STATUSES[Math.floor(Math.random() * STATUSES.length)]
   const price = randomBetween(0.01, 1000)
   const priceChange24h = randomBetween(-30, 30)
@@ -91,7 +91,7 @@ export function generateMockTokens(count: number = 60): Token[] {
   const maxUnique = Math.min(count, TOKEN_NAMES.length)
   
   for (let i = 0; i < maxUnique; i++) {
-    tokens.push(generateMockToken(shuffledTokens[i], i))
+    tokens.push(generateMockToken(shuffledTokens[i]))
   }
   
   if (count > TOKEN_NAMES.length) {
@@ -99,7 +99,7 @@ export function generateMockTokens(count: number = 60): Token[] {
     for (let i = 0; i < remaining; i++) {
       const tokenInfo = shuffledTokens[i % shuffledTokens.length]
       const uniqueName = `${tokenInfo.name} V${Math.floor(i / shuffledTokens.length) + 2}`
-      tokens.push(generateMockToken({ name: uniqueName, symbol: tokenInfo.symbol }, maxUnique + i))
+      tokens.push(generateMockToken({ name: uniqueName, symbol: tokenInfo.symbol }))
     }
   }
   

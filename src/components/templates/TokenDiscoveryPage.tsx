@@ -6,7 +6,6 @@ import { TokenTable } from '@/components/organisms/TokenTable'
 import { TokenFilters } from '@/components/organisms/TokenFilters'
 import { MobileTokenCard } from '@/components/organisms/MobileTokenCard'
 import { ErrorBoundary } from '@/components/molecules/ErrorBoundary'
-import { TableSkeleton } from '@/components/molecules/TableSkeleton'
 import { useBreakpoint } from '@/hooks/useMediaQuery'
 import { TokenStatus } from '@/types/token'
 
